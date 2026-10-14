@@ -23,6 +23,13 @@ case "$DOCK_MAGNIFICATION" in true|false|"") ;; *) fail "DOCK_MAGNIFICATION は 
 [[ -z "$DOCK_LARGE_SIZE" || "$DOCK_LARGE_SIZE" =~ ^[1-9][0-9]*$ ]] || fail "DOCK_LARGE_SIZE は正の整数"
 case "$HOT_CORNER_BOTTOM_LEFT" in display-sleep|"") ;; *) fail "HOT_CORNER_BOTTOM_LEFT は display-sleep" ;; esac
 [[ -z "$TRACKPAD_SPEED" || "$TRACKPAD_SPEED" =~ ^[0-9]+([.][0-9]+)?$ ]] || fail "TRACKPAD_SPEED は 0 以上の数値"
+[[ -z "$SCREENSHOT_LOCATION" || "$SCREENSHOT_LOCATION" == /* ]] || fail "SCREENSHOT_LOCATION は絶対パス"
+plutil -lint "$SCRIPT_DIR/screenshot-shortcuts.plist" >/dev/null
+# 設定全体を書き換えず、スクリーンショット関連の5項目だけを反映する。
+shortcut_values=()
+for key in 28 29 30 31 184; do
+  shortcut_values+=("$(/usr/libexec/PlistBuddy -x -c "Print :AppleSymbolicHotKeys:$key" "$SCRIPT_DIR/screenshot-shortcuts.plist")")
+done
 
 run() {
   printf '%q ' "$@"
@@ -59,6 +66,20 @@ fi
 if [[ -n "$TRACKPAD_SPEED" ]]; then
   run defaults write -g com.apple.trackpad.scaling -float "$TRACKPAD_SPEED"
 fi
+if [[ -n "$SCREENSHOT_LOCATION" ]]; then
+  run mkdir -p "$SCREENSHOT_LOCATION"
+  for key in location location-last location-screenshot location-screenrecording; do
+    run defaults write com.apple.screencapture "$key" -string "$SCREENSHOT_LOCATION"
+  done
+  for key in target target-screenshot target-screenrecording; do
+    run defaults write com.apple.screencapture "$key" -string file
+  done
+fi
+index=0
+for key in 28 29 30 31 184; do
+  run defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$key" "${shortcut_values[$index]}"
+  index=$((index + 1))
+done
 if [[ "$dock_changed" == true ]]; then
   if [[ "$MODE" == --dry-run ]]; then
     run killall Dock
@@ -67,5 +88,5 @@ if [[ "$dock_changed" == true ]]; then
   fi
 fi
 if [[ "$MODE" == --apply ]]; then
-  echo "設定を反映しました。速度が変わらない場合はログアウトして再ログインしてください。"
+  echo "設定を反映しました。トラックパッド速度・スクリーンショットのショートカットが変わらない場合はログアウトして再ログインしてください。"
 fi
