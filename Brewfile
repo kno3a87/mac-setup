@@ -1,3 +1,5 @@
+brew "defaultbrowser"
+
 cask "google-chrome"
 cask "1password"
 cask "gitkraken"
