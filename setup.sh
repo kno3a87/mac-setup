@@ -14,6 +14,7 @@ fi
 
 # アプリのインストール前に、OS 設定の検証と実行予定の表示を行う。
 bash "$SCRIPT_DIR/macos.sh" --dry-run
+bash "$SCRIPT_DIR/dock.sh" --dry-run
 printf '\nインストール対象:\n'
 cat "$SCRIPT_DIR/Brewfile"
 
@@ -33,6 +34,8 @@ cursor|Cursor.app
 codex-app|Codex.app
 docker-desktop|Docker.app
 zed|Zed.app
+iterm2|iTerm.app
+claude|Claude.app
 EOF
 
 echo "デフォルトブラウザ: Google Chrome"
@@ -56,6 +59,7 @@ else
 fi
 
 "$BREW" bundle install --file="$SCRIPT_DIR/Brewfile" --no-upgrade
+bash "$SCRIPT_DIR/dock.sh" --apply
 chrome_app="/Applications/Google Chrome.app"
 if [[ ! -d "$chrome_app" ]]; then
   chrome_app="$HOME/Applications/Google Chrome.app"
