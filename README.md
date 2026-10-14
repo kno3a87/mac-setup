@@ -3,8 +3,26 @@
 Dock に固定するアプリと並び順は `macos.conf` の `DOCK_APPS` に記載する。
 セットアップ時にアプリのインストール後、固定アプリをこの一覧で置き換える。
 Finder とフォルダ領域はそのまま残し、見つからないアプリは警告してスキップする。
-Device Hub は Xcode Beta 内のパスなので、Xcode のバージョンに合わせて変更する。
 Dock のみ確認・反映する場合は `bash dock.sh` / `bash dock.sh --apply` を使う。
+
+スクリーンショットと画面収録は `~/Pictures` に保存する。
+保存先は `macos.conf` の `SCREENSHOT_LOCATION` で変更できる。
+ショートカットはこの PC と同じ設定にする（`screenshot-shortcuts.plist`）。
+`⌘⇧2` で範囲を選んで保存、`⌘⇧3` で画面全体を保存、`⌘⇧5` で撮影・収録ツールを開く。
+`⌃⌘⇧4` で範囲をクリップボードにコピーでき、画面全体のクリップボードコピーは無効にする。
+ショートカットが変わらない場合はログアウトして再ログインする。
+
+ghq と peco もインストールする。新しいターミナルを開くと、`Ctrl+G` でリポジトリを
+選んで移動でき、`Ctrl+R` で履歴を検索できる。既存の `.zshrc` に設定の読み込み行を追加する。
+ghq の保存先は標準の `~/ghq` を使い、既存の `ghq.root` 設定があれば維持する。
+リポジトリを追加する時は `ghq get kno3a87/mac-setup` のように実行する。
+
+iTerm2 は `iterm2/com.googlecode.iterm2.plist` に保存した配色・12pt のフォント・
+無制限のスクロール履歴を読み込む。Droid Sans Mono Nerd Font もインストールする。
+セットアップ時は iTerm2 を終了し、macOS 標準の「ターミナル」等から実行する。
+iTerm2 が起動中だった場合は、終了後に `bash iterm-setup.sh --apply` で設定のみ反映する。
+設定は `~/.config/mac-setup/iterm2` に配置し、初回反映前の設定は同じ場所の
+`before-setup.plist` に保存する。元のプロファイルは保存済みの Default プロファイルに置き換わる。
 
 1. [Homebrew](https://brew.sh/) をインストールし、表示される `Next steps` を実行する。
 2. リポジトリを取得する。

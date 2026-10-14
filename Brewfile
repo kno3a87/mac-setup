@@ -1,4 +1,6 @@
 brew "defaultbrowser"
+brew "ghq"
+brew "peco"
 
 cask "google-chrome"
 cask "1password"
@@ -13,4 +15,6 @@ cask "docker-desktop"
 cask "zed"
 cask "hhkb-studio"
 cask "iterm2"
+cask "font-droid-sans-mono-nerd-font"
 cask "claude"
+cask "xcodes-app"
