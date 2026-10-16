@@ -43,7 +43,11 @@ iTerm2 が起動中だった場合は、終了後に `bash iterm-setup.sh --appl
    今の zsh で続ける場合は、完了時に表示される `source` コマンドを実行する
    （通常は `source ~/.zshrc`）。
 
+   実行中に GitHub のログイン案内が表示されたら、表示されるコードとブラウザの案内に従う。
+   認証済みの場合はログインをスキップし、Git の HTTPS 認証設定と状態確認を行う。
+
 4. 手動で仕上げる。
+   - 下記の「GitHub の初期設定」を参照して、Git の名前・メールアドレスを設定する。
    - デフォルトブラウザの確認画面が出たら「Chrome を使用」を選ぶ。
    - Chrome・1Password にログインする。
    - Slack は「環境設定 → アクセシビリティ → 拡大/縮小」で **80%** を選ぶ。
@@ -52,3 +56,31 @@ iTerm2 が起動中だった場合は、終了後に `bash iterm-setup.sh --appl
    - 「システム設定 → ディスプレイ」で、本体をメインにして外部モニターを真上に配置する。
    - Dock のアイコンにカーソルを載せると拡大し、画面左下にカーソルを移動するとディスプレイがスリープすることを確認する。
    - トラックパッド速度を確認する。速度が反映されなければ、 メニュー →「ログアウト」で入り直すか、Mac を再起動する。
+
+## GitHub の初期設定
+
+GitHub CLI（`gh`）はセットアップでインストールする。
+Git は HTTPS を使うため、SSH 鍵の作成・登録は不要。
+セットアップ中にブラウザでのログイン、Git の HTTPS 認証設定、状態確認まで行う。
+ログイン操作は本人が行う。後から認証をやり直す場合は、次を実行する。
+
+```sh
+gh auth login --hostname github.com --git-protocol https --web
+gh auth setup-git --hostname github.com
+gh auth status --hostname github.com
+```
+
+コミットに使う名前・メールアドレスも設定する。以下の値は自分のものに置き換える。
+メールアドレスは GitHub に登録済みのもの、または
+[GitHub のメール設定](https://github.com/settings/emails)に表示される `noreply` アドレスを使う。
+既に設定済みの場合は、現在の値を確認して必要な場合のみ変更する。
+
+```sh
+git config --global --get user.name
+git config --global --get user.email
+git config --global user.name "自分の名前"
+git config --global user.email "自分のメールアドレス"
+```
+
+認証手順の詳細は [gh auth login](https://cli.github.com/manual/gh_auth_login) と
+[gh auth setup-git](https://cli.github.com/manual/gh_auth_setup-git) を参照。
