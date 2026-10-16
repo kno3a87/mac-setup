@@ -77,3 +77,5 @@ fi
 echo "確認画面が出たら「Chrome を使用」を選んでください。"
 "$("$BREW" --prefix)/bin/defaultbrowser" chrome
 echo "完了しました。README の手動作業を確認してください。"
+echo "シェル設定を反映するには、新しいターミナルを開くか、今の zsh で次を実行してください。"
+printf '  source %q\n' "${ZDOTDIR:-$HOME}/.zshrc"
