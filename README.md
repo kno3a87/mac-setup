@@ -39,6 +39,10 @@ iTerm2 が起動中だった場合は、終了後に `bash iterm-setup.sh --appl
    bash setup.sh --apply  # 実行
    ```
 
+   完了後、新しいターミナルを開いてシェル設定を反映する。
+   今の zsh で続ける場合は、完了時に表示される `source` コマンドを実行する
+   （通常は `source ~/.zshrc`）。
+
 4. 手動で仕上げる。
    - デフォルトブラウザの確認画面が出たら「Chrome を使用」を選ぶ。
    - Chrome・1Password にログインする。
