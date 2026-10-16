@@ -17,6 +17,13 @@ ghq と peco もインストールする。新しいターミナルを開くと�
 ghq の保存先は標準の `~/ghq` を使い、既存の `ghq.root` 設定があれば維持する。
 リポジトリを追加する時は `ghq get kno3a87/mac-setup` のように実行する。
 
+Zed の設定は `zed/settings.json` で管理する。プロジェクトパネルを左に配置し、
+テーマは Ayu Light、キーバインドは VSCode、フォントサイズは UI 14pt・本文 13pt にする。
+自動保存とセマンティックトークンは無効にする。
+セットアップ時に `~/.config/zed/settings.json` をこのファイルで置き換える。
+初回反映前の設定は `~/.config/mac-setup/zed/before-setup.json` に保存する。
+Zed の設定のみ確認・反映する場合は `bash zed-setup.sh` / `bash zed-setup.sh --apply` を使う。
+
 iTerm2 は `iterm2/com.googlecode.iterm2.plist` に保存した配色・12pt のフォント・
 無制限のスクロール履歴を読み込む。Droid Sans Mono Nerd Font もインストールする。
 セットアップ時は iTerm2 を終了し、macOS 標準の「ターミナル」等から実行する。
