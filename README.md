@@ -1,5 +1,14 @@
 # mac-setup
 
+Karabiner-Elements で、左⌘の単押しを英数、右⌘の単押しをかなにする。
+⌘を他のキーと組み合わせるショートカットもそのまま使える。
+設定は `karabiner/command-eikana.json` で管理し、選択中のプロファイルへ追加する。
+既存の他の設定は保持し、初回反映前の設定は
+`~/.config/mac-setup/karabiner/before-setup.json` に保存する。
+設定のみ確認・反映する場合は `bash karabiner-setup.sh` / `bash karabiner-setup.sh --apply` を使う。
+初回は Karabiner-Elements を開き、案内される権限を許可する。
+macOS の入力ソースには日本語を追加しておく。
+
 Dock に固定するアプリと並び順は `macos.conf` の `DOCK_APPS` に記載する。
 セットアップ時にアプリのインストール後、固定アプリをこの一覧で置き換える。
 Finder とフォルダ領域はそのまま残し、見つからないアプリは警告してスキップする。
