@@ -17,6 +17,7 @@ bash "$SCRIPT_DIR/macos.sh" --dry-run
 bash "$SCRIPT_DIR/dock.sh" --dry-run
 bash "$SCRIPT_DIR/shell-setup.sh" --dry-run
 bash "$SCRIPT_DIR/iterm-setup.sh" --dry-run
+bash "$SCRIPT_DIR/zed-setup.sh" --dry-run
 printf '\nインストール対象:\n'
 cat "$SCRIPT_DIR/Brewfile"
 
@@ -65,6 +66,7 @@ fi
 "$BREW" bundle install --file="$SCRIPT_DIR/Brewfile" --no-upgrade
 bash "$SCRIPT_DIR/shell-setup.sh" --apply
 bash "$SCRIPT_DIR/iterm-setup.sh" --apply
+bash "$SCRIPT_DIR/zed-setup.sh" --apply
 bash "$SCRIPT_DIR/dock.sh" --apply
 chrome_app="/Applications/Google Chrome.app"
 if [[ ! -d "$chrome_app" ]]; then
