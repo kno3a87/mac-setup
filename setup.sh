@@ -43,6 +43,7 @@ EOF
 
 echo "デフォルトブラウザ: Google Chrome"
 echo "GitHub: HTTPS を使用し、未認証ならブラウザでログインして Git の認証を設定"
+echo "Zed: CLI がなければアプリ内の CLI へのリンクを Homebrew の bin に作成"
 
 if [[ "$MODE" == --dry-run ]]; then
   echo "確認のみです。実行するには bash setup.sh --apply を指定してください。"
@@ -63,6 +64,22 @@ else
 fi
 
 "$BREW" bundle install --file="$SCRIPT_DIR/Brewfile" --no-upgrade
+brew_bin="$("$BREW" --prefix)/bin"
+if ! command -v zed >/dev/null 2>&1 && [[ ! -x "$brew_bin/zed" ]]; then
+  zed_cli="/Applications/Zed.app/Contents/MacOS/cli"
+  if [[ ! -x "$zed_cli" ]]; then
+    zed_cli="$HOME/Applications/Zed.app/Contents/MacOS/cli"
+  fi
+  if [[ ! -x "$zed_cli" ]]; then
+    echo "Zed の CLI が見つかりません。" >&2
+    exit 1
+  fi
+  if [[ -e "$brew_bin/zed" || -L "$brew_bin/zed" ]]; then
+    echo "Zed CLI のリンク先に既存のファイルがあります: $brew_bin/zed" >&2
+    exit 1
+  fi
+  ln -s "$zed_cli" "$brew_bin/zed"
+fi
 bash "$SCRIPT_DIR/shell-setup.sh" --apply
 bash "$SCRIPT_DIR/iterm-setup.sh" --apply
 bash "$SCRIPT_DIR/dock.sh" --apply
