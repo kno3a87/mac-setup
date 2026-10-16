@@ -42,6 +42,7 @@ xcodes-app|Xcodes.app
 EOF
 
 echo "デフォルトブラウザ: Google Chrome"
+echo "GitHub: HTTPS を使用し、未認証ならブラウザでログインして Git の認証を設定"
 
 if [[ "$MODE" == --dry-run ]]; then
   echo "確認のみです。実行するには bash setup.sh --apply を指定してください。"
@@ -76,6 +77,16 @@ fi
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$chrome_app"
 echo "確認画面が出たら「Chrome を使用」を選んでください。"
 "$("$BREW" --prefix)/bin/defaultbrowser" chrome
+
+GH="$("$BREW" --prefix)/bin/gh"
+if ! "$GH" auth status --hostname github.com >/dev/null 2>&1; then
+  echo "GitHub にログインします。表示されるコードとブラウザの案内に従ってください。"
+  "$GH" auth login --hostname github.com --git-protocol https --web
+fi
+"$GH" config set git_protocol https --host github.com
+"$GH" auth setup-git --hostname github.com
+"$GH" auth status --hostname github.com
+
 echo "完了しました。README の手動作業を確認してください。"
 echo "シェル設定を反映するには、新しいターミナルを開くか、今の zsh で次を実行してください。"
 printf '  source %q\n' "${ZDOTDIR:-$HOME}/.zshrc"
