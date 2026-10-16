@@ -50,6 +50,7 @@ iTerm2 が起動中だった場合は、終了後に `bash iterm-setup.sh --appl
    - 下記の「GitHub の初期設定」を参照して、Git の名前・メールアドレスを設定する。
    - デフォルトブラウザの確認画面が出たら「Chrome を使用」を選ぶ。
    - Chrome・1Password にログインする。
+   - Zed のメニューから「Zed → Install CLI」を選ぶ。ターミナルで `zed .` を実行すると、現在のディレクトリを Zed で開ける（[参考](https://zenn.dev/harunonsystem/scraps/b9361706842017)）。
    - Slack は「環境設定 → アクセシビリティ → 拡大/縮小」で **80%** を選ぶ。
    - 必要な拡張機能・Touch ID・アプリの権限を設定する。
    - HHKB をペアリングモードにして「システム設定 → Bluetooth」で接続する。
