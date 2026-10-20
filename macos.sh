@@ -66,6 +66,8 @@ fi
 if [[ -n "$TRACKPAD_SPEED" ]]; then
   run defaults write -g com.apple.trackpad.scaling -float "$TRACKPAD_SPEED"
 fi
+# 日本語入力のライブ変換を無効にする。
+run defaults write com.apple.inputmethod.Kotoeri JIMPrefLiveConversionKey -bool false
 if [[ -n "$SCREENSHOT_LOCATION" ]]; then
   run mkdir -p "$SCREENSHOT_LOCATION"
   for key in location location-last location-screenshot location-screenrecording; do
@@ -88,5 +90,5 @@ if [[ "$dock_changed" == true ]]; then
   fi
 fi
 if [[ "$MODE" == --apply ]]; then
-  echo "設定を反映しました。トラックパッド速度・スクリーンショットのショートカットが変わらない場合はログアウトして再ログインしてください。"
+  echo "設定を反映しました。トラックパッド速度・日本語入力のライブ変換・スクリーンショットのショートカットが変わらない場合はログアウトして再ログインしてください。"
 fi

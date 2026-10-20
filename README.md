@@ -8,6 +8,8 @@ Karabiner-Elements で、左⌘の単押しを英数、右⌘の単押しをか�
 設定のみ確認・反映する場合は `bash karabiner-setup.sh` / `bash karabiner-setup.sh --apply` を使う。
 初回は Karabiner-Elements を開き、案内される権限を許可する。
 macOS の入力ソースには日本語を追加しておく。
+日本語入力のライブ変換（リアルタイム変換）はセットアップ時に無効にする。
+反映されない場合はログアウトして再ログインする。
 
 Dock に固定するアプリと並び順は `macos.conf` の `DOCK_APPS` に記載する。
 セットアップ時にアプリのインストール後、固定アプリをこの一覧で置き換える。
