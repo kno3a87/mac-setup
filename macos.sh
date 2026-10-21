@@ -23,6 +23,8 @@ case "$DOCK_MAGNIFICATION" in true|false|"") ;; *) fail "DOCK_MAGNIFICATION は 
 [[ -z "$DOCK_LARGE_SIZE" || "$DOCK_LARGE_SIZE" =~ ^[1-9][0-9]*$ ]] || fail "DOCK_LARGE_SIZE は正の整数"
 case "$HOT_CORNER_BOTTOM_LEFT" in display-sleep|"") ;; *) fail "HOT_CORNER_BOTTOM_LEFT は display-sleep" ;; esac
 [[ -z "$TRACKPAD_SPEED" || "$TRACKPAD_SPEED" =~ ^[0-9]+([.][0-9]+)?$ ]] || fail "TRACKPAD_SPEED は 0 以上の数値"
+[[ -z "$KEY_REPEAT" || "$KEY_REPEAT" =~ ^[0-9]+$ ]] || fail "KEY_REPEAT は 0 以上の整数"
+[[ -z "$INITIAL_KEY_REPEAT" || "$INITIAL_KEY_REPEAT" =~ ^[0-9]+$ ]] || fail "INITIAL_KEY_REPEAT は 0 以上の整数"
 [[ -z "$SCREENSHOT_LOCATION" || "$SCREENSHOT_LOCATION" == /* ]] || fail "SCREENSHOT_LOCATION は絶対パス"
 plutil -lint "$SCRIPT_DIR/screenshot-shortcuts.plist" >/dev/null
 # 設定全体を書き換えず、スクリーンショット関連の5項目だけを反映する。
@@ -66,6 +68,12 @@ fi
 if [[ -n "$TRACKPAD_SPEED" ]]; then
   run defaults write -g com.apple.trackpad.scaling -float "$TRACKPAD_SPEED"
 fi
+if [[ -n "$KEY_REPEAT" ]]; then
+  run defaults write -g KeyRepeat -int "$KEY_REPEAT"
+fi
+if [[ -n "$INITIAL_KEY_REPEAT" ]]; then
+  run defaults write -g InitialKeyRepeat -int "$INITIAL_KEY_REPEAT"
+fi
 # 日本語入力のライブ変換を無効にする。
 run defaults write com.apple.inputmethod.Kotoeri JIMPrefLiveConversionKey -bool false
 if [[ -n "$SCREENSHOT_LOCATION" ]]; then
@@ -82,6 +90,15 @@ for key in 28 29 30 31 184; do
   run defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$key" "${shortcut_values[$index]}"
   index=$((index + 1))
 done
+# 保存したショートカットを現在のログインセッションにも読み込ませる。
+activate_settings=/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings
+if [[ -x "$activate_settings" ]]; then
+  if ! run "$activate_settings" -u; then
+    echo "設定の再読み込みに失敗しました。ログアウトして再ログインしてください。" >&2
+  fi
+else
+  echo "設定の再読み込みコマンドがありません。ログアウトして再ログインしてください。" >&2
+fi
 if [[ "$dock_changed" == true ]]; then
   if [[ "$MODE" == --dry-run ]]; then
     run killall Dock
@@ -90,5 +107,5 @@ if [[ "$dock_changed" == true ]]; then
   fi
 fi
 if [[ "$MODE" == --apply ]]; then
-  echo "設定を反映しました。トラックパッド速度・日本語入力のライブ変換・スクリーンショットのショートカットが変わらない場合はログアウトして再ログインしてください。"
+  echo "設定を反映しました。キーリピート・トラックパッド速度・日本語入力のライブ変換・スクリーンショットのショートカットが変わらない場合はログアウトして再ログインしてください。"
 fi
