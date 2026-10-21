@@ -26,6 +26,7 @@ case "$HOT_CORNER_BOTTOM_LEFT" in display-sleep|"") ;; *) fail "HOT_CORNER_BOTTO
 [[ -z "$KEY_REPEAT" || "$KEY_REPEAT" =~ ^[0-9]+$ ]] || fail "KEY_REPEAT は 0 以上の整数"
 [[ -z "$INITIAL_KEY_REPEAT" || "$INITIAL_KEY_REPEAT" =~ ^[0-9]+$ ]] || fail "INITIAL_KEY_REPEAT は 0 以上の整数"
 [[ -z "$SCREENSHOT_LOCATION" || "$SCREENSHOT_LOCATION" == /* ]] || fail "SCREENSHOT_LOCATION は絶対パス"
+case "$TEXT_SIZE" in 9|10|11|12|13|14|15|16|17|default|"") ;; *) fail "TEXT_SIZE は 9〜17/default、または空" ;; esac
 plutil -lint "$SCRIPT_DIR/screenshot-shortcuts.plist" >/dev/null
 # 設定全体を書き換えず、スクリーンショット関連の5項目だけを反映する。
 shortcut_values=()
@@ -73,6 +74,16 @@ if [[ -n "$KEY_REPEAT" ]]; then
 fi
 if [[ -n "$INITIAL_KEY_REPEAT" ]]; then
   run defaults write -g InitialKeyRepeat -int "$INITIAL_KEY_REPEAT"
+fi
+# 「アクセシビリティ → ディスプレイ → テキストサイズ」の優先文字サイズ。
+# アプリごとの指定は保持し、全体の設定だけを変更する。
+if [[ -n "$TEXT_SIZE" ]]; then
+  text_size_category=DEFAULT
+  if [[ "$TEXT_SIZE" != default ]]; then
+    text_size_categories=(XXXS XXS XS S M L XL XXL XXXL)
+    text_size_category=${text_size_categories[$((TEXT_SIZE - 9))]}
+  fi
+  run defaults write com.apple.universalaccess FontSizeCategory -dict-add global "$text_size_category"
 fi
 # 日本語入力のライブ変換を無効にする。
 run defaults write com.apple.inputmethod.Kotoeri JIMPrefLiveConversionKey -bool false
