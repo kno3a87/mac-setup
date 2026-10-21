@@ -1,5 +1,4 @@
 brew "defaultbrowser"
-brew "displayplacer"
 brew "gh"
 brew "ghq"
 brew "peco"
