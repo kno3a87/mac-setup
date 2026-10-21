@@ -2,6 +2,7 @@ brew "defaultbrowser"
 brew "gh"
 brew "ghq"
 brew "peco"
+brew "zsh-autosuggestions"
 
 cask "google-chrome"
 cask "1password"
