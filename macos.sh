@@ -83,7 +83,14 @@ if [[ -n "$TEXT_SIZE" ]]; then
     text_size_categories=(XXXS XXS XS S M L XL XXL XXXL)
     text_size_category=${text_size_categories[$((TEXT_SIZE - 9))]}
   fi
-  run defaults write com.apple.universalaccess FontSizeCategory -dict-add global "$text_size_category"
+  current_text_size_category=$(defaults export com.apple.universalaccess - 2>/dev/null |
+    plutil -extract FontSizeCategory.global raw -o - - 2>/dev/null) || current_text_size_category=
+  if [[ "$current_text_size_category" == "$text_size_category" ]]; then
+    echo "文字サイズ: すでに設定済みのため、書き込みを省略します。"
+  elif ! run defaults write com.apple.universalaccess FontSizeCategory -dict-add global "$text_size_category"; then
+    echo "文字サイズを保存できませんでした。残りの設定を続けます。" >&2
+    echo "「システム設定 → アクセシビリティ → ディスプレイ → テキストサイズ」で ${TEXT_SIZE} を指定してください。" >&2
+  fi
 fi
 # 日本語入力のライブ変換を無効にする。
 run defaults write com.apple.inputmethod.Kotoeri JIMPrefLiveConversionKey -bool false
