@@ -35,6 +35,16 @@ ghq と peco もインストールする。新しいターミナルを開くと�
 ghq の保存先は標準の `~/ghq` を使い、既存の `ghq.root` 設定があれば維持する。
 リポジトリを追加する時は `ghq get kno3a87/mac-setup` のように実行する。
 
+`zsh-autosuggestions` で、入力中にコマンドの続きを薄いグレーで表示する。
+履歴を優先し、一致する履歴がなければ zsh の補完候補から提案する。
+行末で `→` キーを押すと候補を取り込み、Enter で実行する。
+既存の環境にこの設定だけ追加する場合は、次を実行して新しいターミナルを開く。
+
+```sh
+brew install zsh-autosuggestions
+bash shell-setup.sh --apply
+```
+
 Zed の設定は `zed/settings.json` で管理する。プロジェクトパネルを左に配置し、
 テーマは Ayu Light、キーバインドは VSCode、フォントサイズは UI 14pt・本文 13pt にする。
 自動保存とセマンティックトークンは無効にする。
