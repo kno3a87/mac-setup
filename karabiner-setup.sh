@@ -9,10 +9,11 @@ if [[ $# -gt 1 || ( "$MODE" != --dry-run && "$MODE" != --apply ) ]]; then
 fi
 
 echo "Karabiner 設定: 左⌘の単押しで英数、右⌘の単押しでかな"
+echo "HHKB 接続中は Mac の内蔵キーボードを無効にします。"
 echo "選択中のプロファイルに追加し、既存の設定は保持します。"
 if [[ "$MODE" == --dry-run ]]; then exit 0; fi
 
-/usr/bin/ruby - "$SCRIPT_DIR/karabiner/command-eikana.json" <<'RUBY'
+/usr/bin/ruby - "$SCRIPT_DIR/karabiner/command-eikana.json" "$SCRIPT_DIR/karabiner/devices.json" <<'RUBY'
 require 'json'
 require 'fileutils'
 require 'tempfile'
@@ -24,6 +25,15 @@ config = File.exist?(path) ? JSON.parse(File.read(path)) : {}
 profiles = config['profiles'] ||= []
 profiles << { 'name' => 'Default profile', 'selected' => true } if profiles.empty?
 profile = profiles.find { |p| p['selected'] } || profiles.first
+devices = profile['devices'] ||= []
+JSON.parse(File.read(ARGV.fetch(1))).each do |setting|
+  device = devices.find { |d| d['identifiers'] == setting.fetch('identifiers') }
+  if device
+    device.merge!(setting)
+  else
+    devices << setting
+  end
+end
 modifications = profile['complex_modifications'] ||= {}
 rules = modifications['rules'] ||= []
 # 同じ設定の再実行でルールを重複させない。

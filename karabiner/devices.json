@@ -1,0 +1,10 @@
+[
+  {
+    "identifiers": {
+      "vendor_id": 1278,
+      "product_id": 33,
+      "is_keyboard": true
+    },
+    "disable_built_in_keyboard_if_exists": true
+  }
+]
