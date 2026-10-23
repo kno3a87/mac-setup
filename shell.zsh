@@ -1,6 +1,11 @@
 # 対話シェルでのみキーバインドを設定する。
 [[ -o interactive ]] || return 0
 
+# プロジェクトごとの環境変数・PATH を読み込む。
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
+
 # 入力行を色分けし、右端に現在の Git ブランチを表示する。
 PROMPT='%B%F{cyan}%n@%m%f %F{blue}%1~%f %F{green}%#%f%b '
 autoload -Uz vcs_info add-zsh-hook

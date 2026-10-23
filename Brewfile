@@ -1,6 +1,7 @@
 brew "defaultbrowser"
 brew "gh"
 brew "ghq"
+brew "direnv"
 brew "peco"
 brew "zsh-autosuggestions"
 

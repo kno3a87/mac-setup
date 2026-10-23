@@ -55,6 +55,23 @@ ghq の保存先は標準の `~/ghq` を使い、既存の `ghq.root` 設定が�
 Git リポジトリ内では、右端に `git: ブランチ名` を紫で表示する。
 `bash shell-setup.sh --apply` で反映し、新しいターミナルを開くか `source ~/.zshrc` を実行する。
 
+direnv をインストールし、zsh と連携する。プロジェクトの `.envrc` に
+`PATH_add bin` を書いて `direnv allow` を実行すると、そのプロジェクト内で
+`bin` 配下のコマンドを使える。プロジェクトから出ると PATH は元に戻る。
+セットアップ時の `export PATH="$PWD/bin:$PATH"` は、その時点のディレクトリを
+登録するだけなので、移動先のプロジェクトの `bin` には切り替わらない。
+
+プロジェクトのルートで `.envrc` に次を追加する。既存の `.envrc` がある場合は、
+内容を確認して追記する。
+
+```sh
+echo 'PATH_add bin' >> .envrc
+direnv allow
+```
+
+既存の Mac に direnv の連携だけを追加する場合は、`brew install direnv` と
+`bash shell-setup.sh --apply` を実行して、新しいターミナルを開く。
+
 `zsh-autosuggestions` で、入力中にコマンドの続きを薄いグレーで表示する。
 履歴を優先し、一致する履歴がなければ zsh の補完候補から提案する。
 行末で `→` キーを押すと候補を取り込み、Enter で実行する。
