@@ -15,6 +15,7 @@ echo "シェル設定: ghq の保存先は標準の ~/ghq（既存の ghq.root �
 echo "シェル設定: Ctrl+G でリポジトリ選択、Ctrl+R で履歴検索（peco）"
 echo "シェル設定: 履歴・補完候補を薄く表示し、行末で → キーを押すと取り込む"
 echo "シェル設定: 入力行を色分けし、右端に Git ブランチを表示"
+echo "シェル設定: direnv でプロジェクトごとの環境変数・PATH を読み込む"
 echo "シェル設定: $config_dir/shell.zsh を配置し、$zshrc に読み込み行を追加"
 if [[ "$MODE" == --dry-run ]]; then exit 0; fi
 
