@@ -8,6 +8,10 @@ Karabiner-Elements で、左⌘の単押しを英数、右⌘の単押しをか�
 設定のみ確認・反映する場合は `bash karabiner-setup.sh` / `bash karabiner-setup.sh --apply` を使う。
 初回は Karabiner-Elements を開き、案内される権限を許可する。
 macOS の入力ソースには日本語を追加しておく。
+HHKB（vendor_id: 1278、product_id: 33）の接続中は Mac の内蔵キーボードを無効にし、
+接続を切ると自動で有効に戻す。トラックパッドはそのまま使える。
+対象デバイスは `karabiner/devices.json` で管理する。別の接続方式やモデルで ID が異なる場合は、
+Karabiner-EventViewer で ID を確認して追加する。
 日本語入力のライブ変換（リアルタイム変換）はセットアップ時に無効にする。
 反映されない場合はログアウトして再ログインする。
 
